@@ -1,0 +1,74 @@
+﻿@page
+@model CabeceraModel
+
+<div class="uf-form-signin">
+    <div class="text-center">
+        <h1 class="h3" style="color:#29d6a4">Bienvenido @Model.username!</h1>
+        <h7 class="h-75" style="color:#29d6a4">Cargue los datos para la solicitud</h7>
+    </div>
+    <form method="post" asp-page="Cabecera" class="mt-4">
+        <div class="uf-input-group input-group-lg mb-3">
+            <span>Empresa</span>
+            <input class="form-control" name="idEmpresa" id="idEmpresa" asp-for="@Model.nombreEmpresa" readonly />
+            <input asp-for="@Model.nombreEmpresa" id="nombreEmpresa" name="nombreEmpresa" hidden />
+            <input asp-for="@Model.codEmpresa" id="codEmpresa" name="codEmpresa" hidden />
+            <input asp-for="@Model.code" id="code" name="code" hidden />
+            <input asp-for="@Model.username" id="username" name="username" hidden />
+        </div>
+        <div class="uf-input-group input-group-lg mb-3">
+            <span>Fecha de la solicitud</span>
+            <input type="date" asp-for="@Model.fechaSolicitud" class="form-control">
+        </div>
+        <div class="uf-input-group input-group-lg mb-3" align="center">
+            <span asp-validation-for="@Model.empresa" class="text-danger"></span>
+        </div>
+        <div class="uf-input-group input-group-lg mb-3">
+            <span>Proveedor</span>
+            <select class="form-control" style="width:304px" name="idProveedor" id="idProveedor" asp-items="@Model.proveedor"></select>
+            <input asp-for="@Model.nombreProveedor" id="nombreProveedor" name="nombreProveedor" hidden />
+            <input asp-for="@Model.codProveedor" id="codProveedor" name="codProveedor" hidden />
+        </div>
+        <div class="uf-input-group input-group-lg mb-3" align="center">
+            <span asp-validation-for="@Model.proveedor" class="text-danger"></span>
+        </div>
+        <div class="uf-input-group input-group-lg mb-3">
+            <div class="form-check">
+                <input type="checkbox" asp-for="@Model.esInexistente" class="form-check-input uf-form-check-input" id="proveedorInexistente">
+                <label class="form-check-label"  for="exampleCheck1">Proveedor inexistente?</label>
+            </div>
+        </div>
+        <div class="d-grid mb-4">
+            <button type="submit" class="btn uf-btn-primary btn-lg">Siguiente</button>
+        </div>
+    </form>
+</div>
+
+<!-- JavaScript -->
+<!-- Separate Popper and Bootstrap JS -->
+<script src="./assets/js/popper.min.js"></script>
+<script src="./assets/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+
+        $('#idEmpresa').change(function () {
+            var selectedText = $(this).find('option:selected').text();
+            var selectedValue = $(this).find('option:selected').val();
+            $('#nombreEmpresa').val(selectedText);
+            $('#codEmpresa').val(selectedValue);
+        });
+
+        $('#idProveedor').change(function () {
+            var selectedText = $(this).find('option:selected').text();
+            var selectedValue = $(this).find('option:selected').val();
+            $('#nombreProveedor').val(selectedText);
+            $('#codProveedor').val(selectedValue);
+            $('#proveedorInexistente').prop("checked", false);
+        });
+        
+        $('#proveedorInexistente').change(function () {
+            if ($('#proveedorInexistente').is(':checked')) {
+                $("#idProveedor").val("");
+            }
+        });
+    });
+</script>

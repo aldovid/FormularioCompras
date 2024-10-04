@@ -1,0 +1,46 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+<div class="uf-form-signin">
+    <div class="text-center">
+        <i class="bi bi-shop" style="color: #29d6a4; font-size: 70px;"></i>
+        <h1 class="h3" style="color:#29d6a4">Bienvenido!</h1>
+        <h7 class="h-75" style="color:#29d6a4">Complete los campos</h7>
+    </div>
+    <form class="mt-4">
+        <div class="input-group uf-input-group input-group-lg mb-3">
+            <span class="input-group-text fa fa-user"></span>
+            <input type="text" class="form-control" placeholder="Nombre">
+        </div>
+        <div class="input-group uf-input-group input-group-lg mb-3">
+            <span class="input-group-text fa fa-envelope"></span>
+            <input type="text" class="form-control" placeholder="Usuario">
+        </div>
+        <div class="input-group uf-input-group input-group-lg mb-3">
+            <span class="input-group-text fa fa-phone"></span>
+            <input type="text" class="form-control" placeholder="Correo electrónico">
+        </div>
+        <div class="input-group uf-input-group input-group-lg mb-3">
+            <span class="input-group-text fa fa-lock"></span>
+            <input type="password" class="form-control" placeholder="Contraseña">
+        </div>
+        <div class="input-group uf-input-group input-group-lg mb-3">
+            <span class="input-group-text fa fa-lock"></span>
+            <input type="password" class="form-control" placeholder="Confirmación de contraseña">
+        </div>
+        <div class="d-grid mb-4">
+            <button type="submit" class="btn uf-btn-primary btn-lg">Crear usuario</button>
+        </div>
+        <div class="mt-4 text-center">
+            <span>Ya tienes cuenta?</span>
+            <a href="/Index">Login</a>
+        </div>
+    </form>
+</div>
+
+<!-- JavaScript -->
+<!-- Separate Popper and Bootstrap JS -->
+<script src="./assets/js/popper.min.js"></script>
+<script src="./assets/js/bootstrap.min.js"></script>

@@ -1,0 +1,214 @@
+﻿@page
+@model LineasModel
+ 
+
+<div class="uf-form-signin">
+    <div class="text-center">
+        <h1 class="h3" style="color:#29d6a4">Agregue el detalle de la solicitud</h1>
+    </div>
+    <div class="mb-3 justify-content-between" align="center">
+        @if (Model.msg != null)
+        {
+            <label class="alert-danger">@Model.msg</label>
+        }
+    </div>
+    <form method="post" asp-page="Lineas" class="mt-4">
+        <div class="row">
+            <div class="uf-input-group input-group-lg mb-3">
+                <span>Fecha entrega requerida</span>
+                <input type="date" asp-for="@Model.fechaRequerida" style="width:450px" id="fecha" name="fecha" class="form-control">
+                <input type="text" asp-for="@Model.fechaRequerida" id="fechaRequerida" name="fechaRequerida" hidden class="form-control">
+            </div>
+        </div>
+        <div class="row">
+            <div class="uf-input-group input-group-lg mb-3">
+                <span>Tipo</span>
+                <select class="form-control" style="width:450px" name="tipo" id="tipo" asp-items="@Model.tipo"></select>
+                <input asp-for="@Model.nombreTipo" id="nombreTipo" name="nombreTipo" hidden />
+                <input asp-for="@Model.esInexistente" id="esInexistente" name="esInexistente" hidden />
+                <input asp-for="@Model.idRecord" id="idRecord" name="idRecord" hidden />
+                <input asp-for="@Model.nombreProveedor" id="nombreProveedor" name="nombreProveedor" hidden />
+                <input asp-for="@Model.codProveedor" id="codProveedor" name="codProveedor" hidden />
+            </div>
+        </div>
+        <div class="row">
+            <div class="uf-input-group input-group-lg mb-3">
+                <span>Prodcuto</span>
+                <select class="form-control" style="width:450px" name="producto" id="producto" asp-items="@Model.producto"></select>
+                <input asp-for="@Model.nombreProducto" id="nombreProducto" name="nombreProducto" hidden />
+                <input asp-for="@Model.codProducto" id="codProducto" name="codProducto" hidden />
+            </div>
+        </div>
+        <div class="row" action=>
+            <div class="uf-input-group input-group-lg mb-3 col">
+                <span>Unidad de medida</span>
+                <input type="text" asp-for="@Model.unidadMedida" id="unidadMedida" name="unidadMedida" class="form-control">
+            </div>
+            <div class="uf-input-group input-group-lg mb-3 col">
+                <span>Precio unitario</span>
+                <input type="text" id="precio" name="precio" asp-for="@Model.precio" class="form-control">
+            </div>
+        </div>
+        <div class="row">
+            <div class="uf-input-group input-group-lg mb-3">
+                <span>Cantidad</span>
+                <input type="text" id="cantidad" asp-for="@Model.cantidad" class="form-control">
+            </div>
+        </div>
+        <div class="row">
+            <div class="uf-input-group input-group-lg mb-3 col">
+                <span>% Descuento</span>
+                <input type="text" id="porDescuento" name="porDescuento" asp-for="@Model.porDescuento" class="form-control">
+            </div>
+            <div class="uf-input-group input-group-lg mb-3 col">
+                <span>Importe descuento</span>
+                <input type="text" id="descuento" name="descuento" asp-for="@Model.descuento" class="form-control" readonly>
+            </div>
+        </div>
+        <div class="row">
+            <div class="uf-input-group input-group-lg mb-3">
+                <span>Importe linea</span>
+                <input type="text" id="importe" asp-for="@Model.importe" class="form-control" readonly>
+            </div>
+        </div>
+        <div class="row">
+            <div class="d-grid mb-4 col">
+                <button type="submit" class="btn uf-btn-primary btn-lg">Agregar</button>
+            </div>
+        </div>
+        <div class="down">
+            <table border="1" id="items_table" width="450px">
+                <tr>
+                    <th>PRODUCTO</th>
+                    <th>CANTIDAD</th>
+                    <th>DESCUENTO</th>
+                    <th>PRECIO</th>
+                    <th>IMPORTE</th>
+                </tr>
+                @if (Model.lineas != null)
+                {
+                    foreach (var item in Model.lineas)
+                    {
+                        <tr>
+                            <td>@item.description</td>
+                            <td>@item.quantity</td>
+                            <td>@item.lineDiscountAmount</td>
+                            <td>@item.unitPrice</td>
+                            <td>@item.lineAmount</td>
+                        </tr>
+                    }
+                }
+            </table>
+        </div>
+        <div class="text-center">
+            <h1 class="h3">TOTAL: @Model.total</h1>
+        </div>
+    </form>
+    <div class="d-grid mb-4 col">
+        <button type="submit" href="/Index" class="btn uf-btn-primary btn-lg">Finalizar</button>
+    </div>
+</div>
+
+<!-- JavaScript -->
+<!-- Separate Popper and Bootstrap JS -->
+<script src="./assets/js/popper.min.js"></script>
+<script src="./assets/js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+    function descuento() {
+        var cantidad = document.getElementById('cantidad').value;
+        var precio = document.getElementById('precio').value;
+        var porDescuento = document.getElementById('porDescuento').value;
+        var descuento = 0;
+        var total = 0;
+
+        descuento = (precio * cantidad) * porDescuento / 100;
+        total = (precio * cantidad) - descuento;
+
+        document.getElementById('descuento').value = descuento;
+        document.getElementById('importe').value = total;
+    }
+
+    function setValores() {
+        document.getElementById("unidadMedida").value = "";
+        document.getElementById("precio").value = "0";
+        document.getElementById("cantidad").value = "0";
+        document.getElementById("porDescuento").value = "0";
+        document.getElementById("descuento").value = "0";
+        document.getElementById("importe").value = "0";
+    }
+</script>
+<script type="text/javascript">
+    $(function () {
+        $('#tipo').change(function () {
+            var selectedText = $(this).find('option:selected').text();
+            $('#nombreTipo').val(selectedText);
+        });
+
+        $('#producto').change(function () {
+            var selectedText = $(this).find('option:selected').text();
+            var selectedValue = $(this).find('option:selected').val();
+            $('#nombreProducto').val(selectedText);
+            $('#codProducto').val(selectedValue);
+
+            $.ajax({
+                url: '@Url.Action("Lineas", "BuscarProducto")',
+                type: 'POST',
+                data: JSON.stringify({ "selectedValue": selectedValue }),
+                dataType: 'json',
+                contentType: 'application/json',
+                success: function (data) {
+                    $("#mypartial").html(data);
+                }
+            });
+        });
+
+        $('#precio').on('change keydown paste input', function () {
+            var cantidad = $('#cantidad').val();
+            var precio = $('#precio').val();
+            var porDescuento = $('#porDescuento').val();
+            var fecha = $('#fecha').val();
+            var descuento = 0;
+            var total = 0;
+
+            descuento = (precio * cantidad) * porDescuento / 100;
+            total = (precio * cantidad) - descuento;
+
+            $('#descuento').val(descuento);
+            $('#importe').val(total);
+            $('#fechaRequerida').val(fecha);
+        });
+
+        $('#cantidad').on('change keydown paste input', function () {
+            var cantidad = $('#cantidad').val();
+            var precio = $('#precio').val();
+            var porDescuento = $('#porDescuento').val();
+            var fecha = $('#fecha').val();
+            var descuento = 0;
+            var total = 0;
+
+            descuento = (precio * cantidad) * porDescuento / 100;
+            total = (precio * cantidad) - descuento;
+
+            $('#descuento').val(descuento);
+            $('#importe').val(total);
+            $('#fechaRequerida').val(fecha);
+        });
+
+        $('#porDescuento').on('change keydown paste input', function () {
+            var cantidad = $('#cantidad').val();
+            var precio = $('#precio').val();
+            var porDescuento = $('#porDescuento').val();
+            var fecha = $('#fecha').val();
+            var descuento = 0;
+            var total = 0;
+
+            descuento = (precio * cantidad) * porDescuento / 100;
+            total = (precio * cantidad) - descuento;
+
+            $('#descuento').val(descuento);
+            $('#importe').val(total);
+            $('#fechaRequerida').val(fecha);
+        });
+    });
+</script>                            
